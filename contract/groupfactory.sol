@@ -15,6 +15,7 @@ contract GroupFactory is Ownable {
 	struct Group {
 		string name;
 		uint code;
+		mapping (uint => Member) members;
 	}
 	
 	mapping (uint => Group) groups;
@@ -28,7 +29,7 @@ contract GroupFactory is Ownable {
 	}
 
 	function _createGroup(string _name, uint _code) internal {
-		var newGroup = Group(_name, _code);
+		Group newGroup = Group(_name, _code);
 		uint id = groupAccts.push(newGroup) - 1;
 		groups[_code] = newGroup;
 		groupToOwner[_code] = msg.sender;
@@ -45,7 +46,7 @@ contract GroupFactory is Ownable {
 		return groups[_code];
 	}
 	
-	function getAllGroups(uint _code) view public {
+	function getAllGroups() view public {
 		return groupAccts;
 	}
 

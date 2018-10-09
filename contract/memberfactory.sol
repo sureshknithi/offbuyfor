@@ -18,8 +18,10 @@ contract MemberFactory is Ownable {
 		string lName;
 		unit age;
 	}
-
-	Member[] public members;
+	
+	mapping (uint => Group) members;
+	
+	Member[] public memberAccts;
 	
 	function _generateRandomDna(string _str) private view returns (uint) {
 		uint rand = uint(keccak256(_str));
@@ -27,14 +29,24 @@ contract MemberFactory is Ownable {
 	}
 
 	function _createMember(uint _dna, string _fName, string _lName, uint _age) internal {
-		uint id = members.push(Member(_dna, _fName, _lName, _age)) - 1;
+		Member newMember = Member(_dna, _fName, _lName, _age);
+		uint id = memberAccts.push(newMember) - 1;
+		members[_dna] = newMember;
 		NewMember(id, _dna, _fName, _lName, _age);
 	}
 
-	function createRandomMember(string _fName, string _lName, unit _age) public {
+	function createMember(string _fName, string _lName, unit _age) public {
 		uint randDna = _generateRandomDna(_name);
 		randDna = randDna - randDna % 100;
 		_createMember(randDna, _fName, _lName, _age);
+	}
+	
+	function getMember(uint _dna) view public {
+		return members[_dna];
+	}
+	
+	function getAllMembers() view public {
+		return memberAccts;
 	}
 
 }
