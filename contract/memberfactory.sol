@@ -16,10 +16,10 @@ contract MemberFactory is Ownable {
 		uint dna;
 		string fName;
 		string lName;
-		unit age;
+		uint age;
 	}
 	
-	mapping (uint => Group) members;
+	mapping (uint => Member) members;
 	
 	Member[] public memberAccts;
 	
@@ -35,7 +35,7 @@ contract MemberFactory is Ownable {
 		NewMember(id, _dna, _fName, _lName, _age);
 	}
 
-	function createMember(string _fName, string _lName, unit _age) public {
+	function createMember(string _fName, string _lName, uint _age) public {
 		uint randDna = _generateRandomDna(_name);
 		randDna = randDna - randDna % 100;
 		_createMember(randDna, _fName, _lName, _age);
